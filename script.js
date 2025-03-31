@@ -2,13 +2,11 @@ const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-button');
 const toggleCheckbox = document.getElementById('mode-toggle-checkbox');
-const newConversationBtn = document.getElementById('new-conversation-btn');
-const conversationContent = document.querySelector('.conversation-content');
 const logo = document.getElementById('logo');
 
 let conversationHistory = [];
 
-// ==== 0. Load lại lịch sử khi F5 ====
+// ==== Load lịch sử nếu có ====
 window.addEventListener('DOMContentLoaded', () => {
   const saved = localStorage.getItem('conversationHistory');
   if (saved) {
@@ -21,30 +19,31 @@ window.addEventListener('DOMContentLoaded', () => {
   logo.src = document.body.classList.contains('dark-mode') ? 'data/logo1.png' : 'data/logo1.png';
 });
 
-// ==== 1. Toggle dark/light mode ====
+// ==== Dark / Light mode toggle ====
 toggleCheckbox.addEventListener("change", () => {
   document.body.classList.toggle("dark-mode");
   logo.src = document.body.classList.contains("dark-mode") ? "data/logo1.png" : "data/logo1.png";
 });
 
-// ==== 2. Gửi tin nhắn ====
+// ==== Gửi tin nhắn ====
 sendButton.addEventListener('click', sendMessage);
 userInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') sendMessage();
 });
 
-// ==== 3. Gửi tin nhắn và lưu ====
 function sendMessage() {
   const message = userInput.value.trim();
   if (!message) return;
+
   appendMessage('user', message);
   conversationHistory.push({ role: 'user', content: message });
   localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
   userInput.value = '';
+
   getResponseFromOllama(message);
 }
 
-// ==== 4. Hiển thị tin nhắn ====
+// ==== Hiển thị tin nhắn ====
 function appendMessage(role, text) {
   const wrapper = document.createElement('div');
   wrapper.classList.add('message-wrapper');
@@ -65,7 +64,7 @@ function appendMessage(role, text) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// ==== 5. Format văn bản xuống dòng đẹp ====
+// ==== Format văn bản đẹp ====
 function formatText(text) {
   const lines = text.trim().split('\n');
   const numberedLines = lines.filter(line => /^\d+\.\s+/.test(line));
@@ -81,8 +80,7 @@ function formatText(text) {
     .replace(/\n/g, '<br>');
 }
 
-
-// ==== 6. Gọi API SERVER AI ====
+// ==== Gọi tới server AI qua proxy ====
 async function getResponseFromOllama(message) {
   chatBox.querySelectorAll('.bot').forEach(e => e.parentElement.remove());
 
@@ -103,7 +101,7 @@ async function getResponseFromOllama(message) {
   chatBox.scrollTop = chatBox.scrollHeight;
 
   try {
-    const response = await fetch('https://shinne.serveo.net/api/chat', {
+    const response = await fetch(' https://shinne.serveo.net/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -137,15 +135,15 @@ async function getResponseFromOllama(message) {
       conversationHistory.push({ role: "assistant", content: fullReply.trim() });
       localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
     } else {
-      msg.innerHTML = 'SERVER AI ĐI NGỦ RÙI.';
+      msg.innerHTML = '⚠️ SERVER KHÔNG PHẢN HỒI.';
     }
 
   } catch (error) {
-    msg.innerHTML = '⚠️ SERVER AI ĐI NẤU CƠM RÙI.';
+    msg.innerHTML = '⚠️ SERVER LỖI HOẶC KHÔNG KẾT NỐI.';
   }
 }
 
-
+// ==== Phát hiện DevTools ====
 (function detectDevToolsImmediate() {
   let shown = false;
 
@@ -164,6 +162,11 @@ async function getResponseFromOllama(message) {
 
   requestAnimationFrame(check);
 })();
+
+
+
+
+
 
 function showDonationBanner() {
   if (document.getElementById('donation-banner')) return;
@@ -198,5 +201,3 @@ function showDonationBanner() {
   banner.appendChild(text);
   document.body.appendChild(banner);
 }
-
-
