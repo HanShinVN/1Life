@@ -44,15 +44,7 @@ function sendMessage() {
   getResponseFromOllama(message);
 }
 
-// ==== 4. Làm mới hội thoại ====
-// newConversationBtn.addEventListener('click', () => {
-//   chatBox.innerHTML = '';
-//   conversationHistory = [];
-//   localStorage.removeItem('conversationHistory');
-//   conversationContent.textContent = "New Conversation Started!";
-// });
-
-// ==== 5. Hiển thị tin nhắn ====
+// ==== 4. Hiển thị tin nhắn ====
 function appendMessage(role, text) {
   const wrapper = document.createElement('div');
   wrapper.classList.add('message-wrapper');
@@ -73,7 +65,7 @@ function appendMessage(role, text) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// ==== 6. Format văn bản xuống dòng đẹp ====
+// ==== 5. Format văn bản xuống dòng đẹp ====
 function formatText(text) {
   const lines = text.trim().split('\n');
   const numberedLines = lines.filter(line => /^\d+\.\s+/.test(line));
@@ -90,7 +82,7 @@ function formatText(text) {
 }
 
 
-// ==== 7. Gọi API SERVER AI ====
+// ==== 6. Gọi API SERVER AI ====
 async function getResponseFromOllama(message) {
   chatBox.querySelectorAll('.bot').forEach(e => e.parentElement.remove());
 
