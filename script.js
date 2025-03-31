@@ -149,8 +149,7 @@ async function getResponseFromOllama(message) {
     }
 
   } catch (error) {
-    msg.innerHTML = '⚠️ Lỗi kết nối đến máy chủ AI.';
-    console.error("Lỗi khi gọi Ollama:", error);
+    msg.innerHTML = '⚠️ SERVER AI ĐI NẤU CƠM RÙI.';
   }
 }
 
