@@ -103,7 +103,7 @@ async function getResponseFromOllama(message) {
   chatBox.scrollTop = chatBox.scrollHeight;
 
   try {
-    const response = await fetch('https://moral-grackle-vertically.ngrok-free.app:11434/api/chat', {
+    const response = await fetch('https://shinne.serveo.net/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -137,7 +137,7 @@ async function getResponseFromOllama(message) {
       conversationHistory.push({ role: "assistant", content: fullReply.trim() });
       localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
     } else {
-      msg.innerHTML = 'Không nhận được phản hồi từ AI.';
+      msg.innerHTML = 'SERVER AI ĐI NGỦ RÙI.';
     }
 
   } catch (error) {
@@ -198,4 +198,5 @@ function showDonationBanner() {
   banner.appendChild(text);
   document.body.appendChild(banner);
 }
+
 
