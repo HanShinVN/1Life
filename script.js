@@ -101,7 +101,7 @@ async function getResponseFromOllama(message) {
   chatBox.scrollTop = chatBox.scrollHeight;
 
   try {
-    const response = await fetch(' https://shinne.serveo.net/api/chat', {
+    const response = await fetch('http://localhost:3000/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -110,6 +110,7 @@ async function getResponseFromOllama(message) {
         stream: true
       })
     });
+    
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder('utf-8');
@@ -163,11 +164,7 @@ async function getResponseFromOllama(message) {
   requestAnimationFrame(check);
 })();
 
-
-
-
-
-
+// ==== Thông báo khi bung DevTools ====
 function showDonationBanner() {
   if (document.getElementById('donation-banner')) return;
 
