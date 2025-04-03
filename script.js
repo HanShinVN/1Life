@@ -164,6 +164,18 @@ async function getResponseFromOllama(message) {
   requestAnimationFrame(check);
 })();
 
+// ==== Load lịch sử nếu có ====
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('conversationHistory');
+  if (saved) {
+    conversationHistory = JSON.parse(saved);
+    conversationHistory.forEach(item =>
+      appendMessage(item.role, item.content)
+    );
+  }
+});
+
+
 // ==== Thông báo khi bung DevTools ====
 function showDonationBanner() {
   if (document.getElementById('donation-banner')) return;
